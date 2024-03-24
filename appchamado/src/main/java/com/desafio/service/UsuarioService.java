@@ -1,8 +1,7 @@
 package com.desafio.service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,18 +21,6 @@ public class UsuarioService {
    
     @Autowired
     private ModelMapper modelMapper;
-
-    public List<UsuarioDTO> listarUsuarios() {
-        List<Usuario> usuario = repository.findAll();
-        return usuario.stream()
-                .map(usuarios -> modelMapper.map(usuarios, UsuarioDTO.class))
-                .collect(Collectors.toList());
-    }
-
-    public Optional<UsuarioDTO> obterUsuario(Long id) {
-        return repository.findById(id)
-                .map(usuario -> modelMapper.map(usuario, UsuarioDTO.class));
-    }
     
     public Optional<UsuarioDTO> loginUsuario(String email, String senha) {
     	Usuario usuarioExistente = repository.buscaByEmail(email);
@@ -48,7 +35,20 @@ public class UsuarioService {
             throw new ResourceNotFoundException("Usuario não encontrado com o email: " + email);
         }
     }
+    /*
 
+    public List<UsuarioDTO> listarUsuarios() {
+        List<Usuario> usuario = repository.findAll();
+        return usuario.stream()
+                .map(usuarios -> modelMapper.map(usuarios, UsuarioDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public Optional<UsuarioDTO> obterUsuario(Long id) {
+        return repository.findById(id)
+                .map(usuario -> modelMapper.map(usuario, UsuarioDTO.class));
+    }
+    
     public UsuarioDTO cadastrarUsuario(UsuarioDTO usuarioDTO) {
     	
     	Usuario usuario = modelMapper.map(usuarioDTO, Usuario.class);
@@ -75,6 +75,6 @@ public class UsuarioService {
         } else {
             throw new ResourceNotFoundException("Usuario não encontrado com o ID: " + id);
         }
-    }
+    }*/
 
 }
