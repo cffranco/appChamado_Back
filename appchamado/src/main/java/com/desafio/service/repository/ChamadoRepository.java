@@ -15,7 +15,7 @@ public interface ChamadoRepository extends JpaRepository<Chamado, Long> {
 	@Query("Select c from Chamado c where c.idCliente= :idCliente")
 	List<Chamado> pesquisaPorCliente(Long idCliente);
 
-	@Query("Select c from Chamado c where c.idCliente= :idCliente and c.assunto= :assunto")
+	@Query("Select c from Chamado c where c.idCliente= :idCliente and upper(c.assunto) like upper(:assunto)")
 	List<Chamado> pesquisaPorAssunto(Long idCliente, String assunto);
 	
 	@Query("Select c from Chamado c where c.id= :idChamado and c.idCliente= :idCliente")

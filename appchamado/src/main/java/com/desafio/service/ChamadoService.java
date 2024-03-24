@@ -71,11 +71,11 @@ public class ChamadoService {
     public List<ChamadoDTO> pesquisarChamadosPorCliente(PesquisaChamadoDTO filtro) {
         List<Chamado> chamado = new ArrayList<>();
         Long idCliente = Long.parseLong(filtro.getIdCliente());
-        if (filtro.getIdCliente() != null) {
+        if (!filtro.getIdCliente().isEmpty()  && filtro.getAssunto().isEmpty() && filtro.getIdChamado()==null ) {
           chamado = repository.pesquisaPorCliente(idCliente);
-        } else if (filtro.getAssunto() != null) {
-          chamado = repository.pesquisaPorAssunto(idCliente,filtro.getAssunto());
-        } else if (filtro.getIdChamado() != null) {
+        } else if (!filtro.getAssunto().isEmpty()) {
+          chamado = repository.pesquisaPorAssunto(idCliente,"%".concat(filtro.getAssunto()).concat("%"));
+        } else if (filtro.getIdChamado()>0) {
           chamado = repository.pesquisaPorChamado(idCliente,filtro.getIdChamado());
         } 
         
@@ -115,6 +115,9 @@ public class ChamadoService {
     public Optional<ChamadoDTO> avaliarChamado(ChamadoDTO chamadoDTO) {
     	Long id = chamadoDTO.getId();
     	Integer nota = chamadoDTO.getAvaliacao();
+    	if(nota>10) {
+    		throw new ResourceNotFoundException("A nota não pode ser mair que 10");
+    	}
         Optional<Chamado> chamadoExistente = repository.findById(id);
         if (chamadoExistente.isPresent()) {
             Chamado chamado = chamadoExistente.get();
