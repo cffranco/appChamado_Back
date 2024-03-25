@@ -10,21 +10,28 @@ import org.springframework.stereotype.Component;
 
 import com.desafio.entity.Usuario;
 import com.desafio.service.repository.UsuarioRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @Component
 public class DadosInicializacao implements ApplicationListener<ContextRefreshedEvent> {
 	@Autowired
     UsuarioRepository usuarioRepository;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent arg0) {
 
         List<Usuario> users = usuarioRepository.findAll();
-
+        /*
         if (users.isEmpty()) {
             createUsuario("admin", "admin@exemplo.com",Util.criptografiaBase64Encoder("123456"),Constantes.PERFIL_ADMIN);
             createUsuario("cliente", "cliente@exemplo.com",Util.criptografiaBase64Encoder("123456"),Constantes.PERFIL_CLIENT);
+        }*/
+        if (users.isEmpty()) {
+            createUsuario("admin", "admin@exemplo.com", passwordEncoder.encode("123456"),Constantes.PERFIL_ADMIN);
+            createUsuario("cliente", "cliente@exemplo.com", passwordEncoder.encode("123456"),Constantes.PERFIL_CLIENT);
         }
 
     }
