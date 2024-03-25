@@ -4,7 +4,7 @@ spring:
    # Database
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=chamado
+    url: jdbc:postgresql://0.0.0.0:5432/postgres?currentSchema=chamado
     username: postgres
     password: password
   # JPA properties

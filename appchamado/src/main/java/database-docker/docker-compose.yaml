@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  local-postgres-compose:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "3452:3452"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - postgres-compose-network
+      
+networks:
+  postgres-compose-network:
+    driver: bridge
